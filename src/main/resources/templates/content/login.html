@@ -1,31 +1,54 @@
-<div th:fragment="content" class="d-flex justify-content-center">
-    <form class="mw-300 pt-5">
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-          <input type="email" id="form2Example1" class="form-control" />
-          <label class="form-label" for="form2Example1">Email address</label>
-        </div>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title></title>
+    </head>
+    <body>    
+        <div th:fragment="content">
 
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-          <input type="password" id="form2Example2" class="form-control" />
-          <label class="form-label" for="form2Example2">Password</label>
-        </div>
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Błąd!</strong>Niepoprawny użytkownik lub hasło!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+               <h1 class="h2">Zaloguj się do konta</h1>
+            </div>
+            
+            <div class="d-flex justify-content-center">
+                <form th:action="@{/login}" method="post" class="mw-300 pt-5">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="username" name="username" required="true" class="form-control" />
+                      <label class="form-label" for="username">Login</label>
+                    </div>
 
-        <!-- 2 column grid layout for inline styling -->
-        <div class="row mb-4">
-          <div class="col">
-            <!-- Simple link -->
-            <a href="#!">Forgot password?</a>
-          </div>
-        </div>
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                      <input type="password" id="password" name="password" required="true" class="form-control" />
+                      <label class="form-label" for="password">Hasło</label>
+                    </div>
 
-        <!-- Submit button -->
-        <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+                    <!-- 2 column grid layout for inline styling -->
+                    <div class="row mb-4">
+                      <div class="col">
+                        <!-- Simple link -->
+                        <a th:href="@{/restorePassword}">Zapomniałeś hasła?</a>
+                      </div>
+                    </div>
 
-        <!-- Register buttons -->
-        <div class="text-center">
-          <p>Not a member? <a href="#!">Register</a></p>
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Zaloguj się</button>
+
+                    <!-- Register buttons -->
+                    <div class="text-center">
+                      <p>Nie masz konta? <a th:href="@{/register}">Zarejestruj się</a></p>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
-</div>
+    </body>
+</html>

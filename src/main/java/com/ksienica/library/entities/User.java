@@ -35,14 +35,18 @@ public class User {
     @NotBlank
     private String login;
     
+    @Column(name = "email")
+    @Size(min = 4, max = 100)
+    @NotBlank
+    private String email;
+    
     @Column(name = "password")
     @NotBlank
     private String password;
    
     @Column(name = "role")
-    @NotBlank
     private String role;
-    
+        
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserDetails userDetails;
@@ -87,4 +91,12 @@ public class User {
         this.userDetails = userDetails;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 }

@@ -28,13 +28,18 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
-        http.authorizeRequests()
+        http.formLogin(form -> form
+			.loginPage("/login")
+			.permitAll()
+		).authorizeRequests()
                 .antMatchers(Definitions.URL_CSS, Definitions.URL_JS)
                 .permitAll()
-                .antMatchers(Definitions.URL_REGISTER, Definitions.URL_LOGIN, Definitions.URL_HOME)
+                .antMatchers(Definitions.URL_REGISTER, Definitions.URL_HOME)
                 .anonymous()
                 .antMatchers("/**")
-                .hasRole("user");
+                .hasRole(Definitions.USER_READER_ROLE)
+                .anyRequest()
+                .authenticated();
         
         return http.build();
     }

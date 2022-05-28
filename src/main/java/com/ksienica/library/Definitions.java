@@ -8,7 +8,7 @@ package com.ksienica.library;
  *
  * @author Kamil
  */
-public class Definitions {
+public final class Definitions {
     
     //Roles
     public static final String USER_DEFAULT_ROLE="reader";
@@ -25,6 +25,7 @@ public class Definitions {
     public static final String URL_REGISTER="/register";
     
     //View's
+    public static final String VIEW_ERROR="error";
     public static final String VIEW_HOME="home";
     public static final String VIEW_LOGIN="login";
     public static final String VIEW_REGISTER="register";

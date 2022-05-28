@@ -8,11 +8,11 @@ package com.ksienica.library.exceptions;
  *
  * @author Kamil
  */
-public class UserAlreadyExistException extends Exception {
+public class UserRegistrationException extends Exception {
     
-    public UserAlreadyExistException(String username) {
+    public UserRegistrationException(String message) {
         
-        super("User with name "+username+" alredy exist!");
+        super(message);
     }
         
 }

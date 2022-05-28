@@ -34,10 +34,9 @@ public class LibraryUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         
-        GrantedAuthority authority = new SimpleGrantedAuthority(userPojo.getRole());
         UserDetails user = org.springframework.security.core.userdetails.User.withUsername(userPojo.getLogin())
                .password(userPojo.getPassword())
-               .authorities(authority)
+               .roles(userPojo.getRole())
                .build();
 
         return user;
