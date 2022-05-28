@@ -38,12 +38,12 @@
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
 
-		<dependency>
+<!--		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -93,7 +93,7 @@
                                 <password>password</password>
                                 <url>jdbc:h2:file:./src/main/resources/db/library</url>
                                 <schemas>
-                                    <schema>LIBRARY-DB</schema>
+                                    <schema>LIBRARYDB</schema>
                                 </schemas>
                             </configuration>
                     </plugin>
