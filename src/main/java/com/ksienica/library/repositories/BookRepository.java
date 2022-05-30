@@ -6,7 +6,12 @@
 package com.ksienica.library.repositories;
 
 import com.ksienica.library.entities.Book;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +20,20 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface BookRepository extends JpaRepository<Book, String>{
+    
+    @Query(value = "SELECT LIBRARYDB.BOOK.* FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL",
+    countQuery = "SELECT count(*) FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL;",
+    nativeQuery = true)
+    Page<Book> findAllNotBorrowed(Pageable pageable);
+
+    @Query(value = "SELECT LIBRARYDB.BOOK.* FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL AND LIBRARYDB.BOOK.AUTHOR LIKE %:filter%",
+    countQuery = "SELECT count(*) FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL AND LIBRARYDB.BOOK.AUTHOR LIKE %:filter%",
+    nativeQuery = true)
+    Page<Book> findAllNotBorrowedByAuthor(@Param("filter") String filter, Pageable paging);
+
+    @Query(value = "SELECT LIBRARYDB.BOOK.* FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL AND LIBRARYDB.BOOK.TITLE LIKE %:filter%",
+    countQuery = "SELECT count(*) FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL AND LIBRARYDB.BOOK.TITLE LIKE %:filter%",
+    nativeQuery = true)
+    Page<Book> findAllNotBorrowedByTitle(@Param("filter") String filter, PageRequest paging);
     
 }

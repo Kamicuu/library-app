@@ -23,11 +23,18 @@ public final class Definitions {
     public static final String URL_HOME="/";
     public static final String URL_LOGIN="/login";
     public static final String URL_REGISTER="/register";
+    public static final String URL_EDIT_USER="/editUser";
+    public static final String URL_BOOKS="/books";
     
     //View's
     public static final String VIEW_ERROR="error";
     public static final String VIEW_HOME="home";
     public static final String VIEW_LOGIN="login";
     public static final String VIEW_REGISTER="register";
+    public static final String VIEW_EDIT_USER="edit_user";
+    public static final String VIEW_BOOKS="books";
     
+    //SearchParameters
+    public static final String SEARCH_TITLE="title";
+    public static final String SEARCH_AUTHOR="author";
 }

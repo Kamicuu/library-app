@@ -8,9 +8,9 @@ package com.ksienica.library.exceptions;
  *
  * @author Kamil
  */
-public class UserRegistrationException extends Exception {
+public class UserServiceException extends Exception {
     
-    public UserRegistrationException(String message) {
+    public UserServiceException(String message) {
         
         super(message);
     }

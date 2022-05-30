@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Błąd!</strong><p th:text="${error}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div th:if="${sucess}" class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Sukces!</strong><p th:text="${sucess}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+               <h1 class="h2">Edytuj dane użytkownika</h1>
+            </div>
+            <div class="d-flex justify-content-center">
+                <form th:action="@{/editUser}" method="post" class="w-50 pt-5">
+                    <h5 class="text-muted mx-5">Dane podstawowe</h5>  
+                    <hr class="mb-5"/>
+                                        
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" th:value="${user?.email}" />
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="password">Hasło</label>
+                        <input type="password" name="password" id="password" class="form-control" />
+                    </div>
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="password_ack">Powtórz hasło</label>
+                        <input type="password" name="passwordAck" id="password_ack" class="form-control" />
+                    </div>
+                    
+                    <h5 class="text-muted mx-5">Dane kontaktowe</h5>  
+                    <hr class="mb-5"/>
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="firstName">Imię</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user?.firstName}" />
+                    </div>
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="lastName">Nazwisko</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user?.lastName}" />
+                    </div>
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="lastName">Numer telefonu</label>
+                        <input type="tel" pattern="[0-9]{9}" id="phoneNumber" name="phoneNumber" class="form-control" th:value="${user?.phoneNumber}" />
+                        <div id="phone_number" class="form-text">
+                           Format: 9 cyfr np. 111222333
+                        </div>
+                    </div>
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="city">Miasto</label>
+                        <input type="text" id="city" name="city" class="form-control" th:value="${user?.city}" />
+                    </div>
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="city">Kod pocztowy</label>
+                        <input type="text" id="postCode" name="postCode" class="form-control" th:value="${user?.postCode}" />
+                        <div class="form-text">
+                            Format: xx-xxx np. 41-100
+                        </div>
+                    </div> 
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="street">Ulica</label>
+                        <input type="text" id="street" name="street" class="form-control" th:value="${user?.street}" />
+                    </div>
+                    
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="number">Numer domu/mieszkania</label>
+                        <input type="text" id="number" name="number" class="form-control" th:value="${user?.number}" />
+                        <div class="form-text">
+                            Format: xxx/xxx np. 12A/3
+                        </div>
+                    </div>  
+                    
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4 mt-4">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

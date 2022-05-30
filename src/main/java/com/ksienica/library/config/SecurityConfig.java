@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  *
@@ -28,18 +29,30 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
-        http.formLogin(form -> form
-			.loginPage("/login")
-			.permitAll()
-		).authorizeRequests()
-                .antMatchers(Definitions.URL_CSS, Definitions.URL_JS)
+        http
+            //login
+            .formLogin(form -> form
+                .loginPage("/login")
                 .permitAll()
-                .antMatchers(Definitions.URL_REGISTER, Definitions.URL_HOME)
-                .anonymous()
-                .antMatchers("/**")
-                .hasRole(Definitions.USER_READER_ROLE)
-                .anyRequest()
-                .authenticated();
+            ).authorizeRequests()
+            //Permit all
+            .antMatchers(Definitions.URL_CSS, Definitions.URL_JS, Definitions.URL_HOME, Definitions.URL_BOOKS)
+            .permitAll()
+            //Permit anonymus
+            .antMatchers(Definitions.URL_REGISTER)
+            .anonymous()
+            //Permit users
+            .antMatchers(Definitions.URL_EDIT_USER+"/*")
+            .hasRole(Definitions.USER_READER_ROLE)
+            .anyRequest()
+            .authenticated()
+            //logout
+            .and()
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl(Definitions.URL_HOME)
+            .deleteCookies("JSESSIONID")
+            .invalidateHttpSession(true); 
         
         return http.build();
     }

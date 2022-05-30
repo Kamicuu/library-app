@@ -6,6 +6,7 @@
 package com.ksienica.library.repositories;
 
 import com.ksienica.library.entities.User;
+import com.ksienica.library.entities.UserDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

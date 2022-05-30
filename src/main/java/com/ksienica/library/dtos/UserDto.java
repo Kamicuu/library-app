@@ -20,6 +20,8 @@ public class UserDto extends User{
     @NotBlank
     @Size(min = 9, max = 9)
     private String phoneNumber;
+    
+    private String gRecaptchaResponse;
 
     public String getPasswordAck() {
         return passwordAck;
@@ -36,5 +38,13 @@ public class UserDto extends User{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    
+
+    public String getgRecaptchaResponse() {
+        return gRecaptchaResponse;
+    }
+
+    public void setgRecaptchaResponse(String gRecaptchaResponse) {
+        this.gRecaptchaResponse = gRecaptchaResponse;
+    }
+     
 }

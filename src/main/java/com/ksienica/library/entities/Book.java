@@ -75,4 +75,93 @@ public class Book {
     
     @ManyToMany(mappedBy = "likedBooks", fetch = FetchType.LAZY)
     private Set<Borrowing> likedBorrowings;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getPublishingHouse() {
+        return publishingHouse;
+    }
+
+    public void setPublishingHouse(String publishingHouse) {
+        this.publishingHouse = publishingHouse;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isCanBeBorrowed() {
+        return canBeBorrowed;
+    }
+
+    public void setCanBeBorrowed(boolean canBeBorrowed) {
+        this.canBeBorrowed = canBeBorrowed;
+    }
+
+    public Set<Borrowing> getLikedBorrowings() {
+        return likedBorrowings;
+    }
+
+    public void setLikedBorrowings(Set<Borrowing> likedBorrowings) {
+        this.likedBorrowings = likedBorrowings;
+    }
+    
 }

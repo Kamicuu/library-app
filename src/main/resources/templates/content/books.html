@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+               <h1 class="h2">Znajdz książkę</h1>
+            </div>
+            <form method="get" th:action="@{/books}">
+                <div class="input-group mb-3">
+                    <input class="form-control rounded-0 w-50" type="text" name="searchText" placeholder="Wpisz szukaną wartość"/>
+                    <select class="form-select rounded-0" name="searchType">
+                        <option th:value="${searchTitle}" selected="true">Tytuł</option>
+                        <option th:value="${searchAuthor}">Autor</option>
+                    </select>
+                    <button class="btn btn-outline-secondary rounded-0" type="submit">Szukaj</button>
+                </div>
+            </form>
+            <div class="table-responsive mt-5">
+              <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">ISBN/EAN</th>
+                  <th scope="col">Tytuł</th>
+                  <th scope="col">Autor</th>
+                  <th scope="col">Rok wydania</th>
+                  <th scope="col">Wydawnictwo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:if="${books.empty}">
+                    <td colspan="2"> No Books Available </td>
+                </tr>
+                <tr th:each="book : ${books}">
+                    <td><span th:text="${book.isbn}">Isbn</span></td>
+                    <td><a th:text="${book.title}" th:href="@{/bookDetails/{id}(id=${book.id})}">Title</a></td>
+                    <td><span th:text="${book.author}">Author</span></td>
+                    <td><span th:text="${book.publicationDate}">Publication date</span></td>
+                    <td><span th:text="${book.publishingHouse}">Publishing House</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex">
+               <div th:if="${pageNum > 0}" class="m-1">
+                    <a th:href="@{/books(page=${pageNum}-1, searchText=${searchText}, searchType=${searchType})}"
+                        th:text="${pageNum}-1"></a>
+                </div>
+                <div class="m-1" th:text="${pageNum}">
+                </div>
+                <div th:if="${pageNum >= 0}" class="m-1">
+                    <a th:href="@{/books(page=${pageNum}+1, searchText=${searchText}, searchType=${searchType})}"
+                        th:text="${pageNum}+1"></a>
+                </div> 
+            </div>
+          </div>
+        </div>
+    </body>
+</html>

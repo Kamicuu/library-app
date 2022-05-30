@@ -7,8 +7,13 @@ package com.ksienica.library.controllers;
 import com.ksienica.library.Definitions;
 import com.ksienica.library.Messages;
 import com.ksienica.library.dtos.UserDto;
-import com.ksienica.library.exceptions.UserRegistrationException;
+import com.ksienica.library.dtos.UserEditDto;
+import com.ksienica.library.exceptions.UserServiceException;
 import com.ksienica.library.services.LibraryUserService;
+import java.security.Principal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -35,16 +40,16 @@ public class AccountController {
     }
     
     @PostMapping(path = Definitions.URL_REGISTER, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String registerUser(@Valid UserDto user, final Model model){
+    public String registerUser(HttpServletRequest request, @Valid UserDto user, final Model model){
         
         try {
             
-           userService.registerUser(user);
+           userService.registerUser(user, request.getRemoteAddr());
            model.addAttribute("sucess", Messages.SUCCESS_USER_REGISTERED);
            
            return Definitions.VIEW_REGISTER;
            
-        } catch (UserRegistrationException ex) {
+        } catch (UserServiceException ex) {
             
            model.addAttribute("error", ex.getMessage());
            model.addAttribute(user);
@@ -60,5 +65,33 @@ public class AccountController {
     public String getLoginView(){
 
         return Definitions.VIEW_LOGIN;
+    }
+    
+    //Edit user handling
+    @GetMapping(path = Definitions.URL_EDIT_USER)
+    public String getEditUserViev(Principal principal, final Model model){
+
+        model.addAttribute("user", userService.getUserData(principal.getName()));
+    
+        return Definitions.VIEW_EDIT_USER;
+    }
+    
+    @PostMapping(path = Definitions.URL_EDIT_USER)
+    public String editUser(UserEditDto user, Principal principal, final Model model){
+    
+        try {
+            
+            userService.editUser(user, principal.getName());
+            model.addAttribute("sucess", Messages.SUCCESS_USER_EDITED);
+            model.addAttribute("user", userService.getUserData(principal.getName()));
+            
+        } catch (UserServiceException ex) {
+
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("user", user);
+
+        }
+        
+        return Definitions.VIEW_EDIT_USER;
     }
 }

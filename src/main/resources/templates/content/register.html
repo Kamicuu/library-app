@@ -20,11 +20,13 @@
             </div>
             
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-               <h1 class="h2">Register page</h1>
+               <h1 class="h2">Załóż konto</h1>
             </div>
             
             <div class="d-flex justify-content-center">
-                <form th:action="@{/register}" method="post" class="w-50 pt-5">
+                <form th:action="@{/register}" method="post" class="w-50 pt-5" onsubmit="(function(){
+                     document.getElementById('g-recaptcha-response').setAttribute('name', 'gRecaptchaResponse');                 
+                })(this)">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
                         <label class="form-label" for="username">Login</label>
@@ -53,7 +55,12 @@
                     <div id="phone_number" class="form-text">
                        Numet telefonu będzie używany tylko w celu weryfikacji rejestraji. Format: 9 cyfr np. 111222333
                     </div>
-
+                    
+                    <div class="g-recaptcha col-sm-5 mt-4"
+                    th:attr="data-sitekey=${@captchaSettings.getSite()}">
+                    </div>
+                    <span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
+                    
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-primary btn-block mb-4 mt-4">Zarejestruj</button>
 
