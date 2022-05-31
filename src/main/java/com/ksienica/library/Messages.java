@@ -29,5 +29,7 @@ public final class Messages {
     public static final String ERROR_STREET_FORMAT_INCORRECT = "Ulica jest w nieprawidłowym formacie.";
     public static final String ERROR_USER_NOT_FOUND = "Użytkownik nie został zanleziony.";
     public static final String ERROR_CITY_FORMAT_INCORRECT = "Miasto jest w nieprawidłowym formacie.";
+    public static final String ERROR_USER_INVALID_ROLE = "Podana rola nie istnieje w systemie.";
+    public static final String ERROR_ONE_ADMIN_REQUIRED = "W systemie musi istnieć przynajmniej jeden administrator!";
     
 }

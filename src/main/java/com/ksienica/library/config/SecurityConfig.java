@@ -7,6 +7,7 @@ package com.ksienica.library.config;
 import com.ksienica.library.Definitions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,8 +43,11 @@ public class SecurityConfig {
             .antMatchers(Definitions.URL_REGISTER)
             .anonymous()
             //Permit users
-            .antMatchers(Definitions.URL_EDIT_USER+"/*")
-            .hasRole(Definitions.USER_READER_ROLE)
+            .antMatchers(Definitions.URL_EDIT_USER)
+            .hasAnyRole(Definitions.USER_READER_ROLE, Definitions.USER_ADMIN_ROLE)
+            //Permit admin
+            .antMatchers(Definitions.URL_EDIT_USER_PRIVILIGES)
+            .hasRole(Definitions.USER_ADMIN_ROLE)
             .anyRequest()
             .authenticated()
             //logout

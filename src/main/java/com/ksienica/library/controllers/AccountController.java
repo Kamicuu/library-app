@@ -11,6 +11,9 @@ import com.ksienica.library.dtos.UserEditDto;
 import com.ksienica.library.exceptions.UserServiceException;
 import com.ksienica.library.services.LibraryUserService;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +24,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -76,7 +81,7 @@ public class AccountController {
         return Definitions.VIEW_EDIT_USER;
     }
     
-    @PostMapping(path = Definitions.URL_EDIT_USER)
+    @PostMapping(path = Definitions.URL_EDIT_USER, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String editUser(UserEditDto user, Principal principal, final Model model){
     
         try {
@@ -93,5 +98,63 @@ public class AccountController {
         }
         
         return Definitions.VIEW_EDIT_USER;
+    }
+    
+    //priviliges edit handling
+    @GetMapping(path = Definitions.URL_EDIT_USER_PRIVILIGES)
+    public String getEditUserPriviligesViev(@RequestParam(defaultValue = "") String searchText,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            final Model model){
+
+        var roles = new ArrayList<String>();
+        
+        roles.add(Definitions.USER_READER_ROLE);
+        roles.add(Definitions.USER_LIBRARIAN_ROLE);
+        roles.add(Definitions.USER_ADMIN_ROLE);
+        
+        model.addAttribute("roles",roles);
+        model.addAttribute("pageNum", page);
+        
+        if(searchText.equals("")){
+            model.addAttribute("users", userService.getUserData(page, size));
+        }else{
+            model.addAttribute("users", userService.getUserData(searchText, page, size));  
+        }
+    
+        return Definitions.VIEW_EDIT_USER_PRIVILIGES;
+    }
+    
+    @PostMapping(path = Definitions.URL_EDIT_USER_PRIVILIGES, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String editPriviliges(@RequestParam int userId, 
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam Map<String, String> formData, 
+            final Model model){
+        
+        var roles = new ArrayList<String>();
+        
+        roles.add(Definitions.USER_READER_ROLE);
+        roles.add(Definitions.USER_LIBRARIAN_ROLE);
+        roles.add(Definitions.USER_ADMIN_ROLE);
+        
+        model.addAttribute("roles",roles);
+        model.addAttribute("pageNum", page);
+    
+        try {
+            
+            userService.editUserRole(userId, formData.get("role"));
+            model.addAttribute("sucess", Messages.SUCCESS_USER_EDITED);
+            model.addAttribute("users", userService.getUserData(page, size));
+            
+            
+        } catch (UserServiceException ex) {
+            
+            model.addAttribute("users", userService.getUserData(page, size));
+            model.addAttribute("error", ex.getMessage());
+            
+        }
+        
+        return Definitions.VIEW_EDIT_USER_PRIVILIGES;
     }
 }

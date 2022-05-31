@@ -16,10 +16,12 @@ import com.ksienica.library.entities.UserDetails;
 import com.ksienica.library.exceptions.UserServiceException;
 import com.ksienica.library.repositories.UserRepository;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -73,6 +75,21 @@ public class LibraryUserService{
         return user;
     }
     
+    public List<User> getUserData(int page, int size){
+        
+        PageRequest paging = PageRequest.of(page, size);
+        
+        return userRepo.findAll(paging).toList();
+    }
+    
+    public List<User> getUserData(String filter, int page, int size){
+        
+        PageRequest paging = PageRequest.of(page, size);
+        
+        return userRepo.findByLoginContaining(filter, paging);
+    
+    }
+    
     public void editUser(UserEditDto user, String username) throws UserServiceException{
         
 
@@ -108,6 +125,28 @@ public class LibraryUserService{
         
         userRepo.save(basicUser);
         
+    }
+    
+    public void editUserRole(int userId, String userRole) throws UserServiceException{
+    
+        if(userRole.equals(Definitions.USER_ADMIN_ROLE) || userRole.equals(Definitions.USER_LIBRARIAN_ROLE) || userRole.equals(Definitions.USER_READER_ROLE)){
+            var user = userRepo.findById(userId).orElseThrow(() -> {
+                return new UserServiceException(Messages.ERROR_USER_NOT_FOUND);
+            });
+            
+            var currentAdmins = userRepo.findAllByRole(Definitions.USER_ADMIN_ROLE);
+            
+            if(currentAdmins.size()<=1){
+                if(currentAdmins.get(0).getId()==userId && !userRole.equals(Definitions.USER_ADMIN_ROLE)){
+                    throw new UserServiceException(Messages.ERROR_ONE_ADMIN_REQUIRED);
+                }
+            }
+            
+            user.setRole(userRole);
+            userRepo.save(user);
+            
+        }else throw new UserServiceException(Messages.ERROR_USER_INVALID_ROLE);
+    
     }
             
     private static void validateUserData(UserDto user) throws UserServiceException {

@@ -24,6 +24,7 @@ public final class Definitions {
     public static final String URL_LOGIN="/login";
     public static final String URL_REGISTER="/register";
     public static final String URL_EDIT_USER="/editUser";
+    public static final String URL_EDIT_USER_PRIVILIGES="/editPriviliges";
     public static final String URL_BOOKS="/books";
     
     //View's
@@ -32,6 +33,7 @@ public final class Definitions {
     public static final String VIEW_LOGIN="login";
     public static final String VIEW_REGISTER="register";
     public static final String VIEW_EDIT_USER="edit_user";
+    public static final String VIEW_EDIT_USER_PRIVILIGES="edit_priviliges";
     public static final String VIEW_BOOKS="books";
     
     //SearchParameters

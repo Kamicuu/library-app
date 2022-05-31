@@ -35,15 +35,21 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:classappend="${#httpServletRequest.getRequestURI() == '/borrows' ? 'active':''}" sec:authorize="hasRole('reader')" th:href="@{/borrows}">
+              <a class="nav-link" th:classappend="${#httpServletRequest.getRequestURI() == '/borrows' ? 'active':''}" sec:authorize="hasAnyRole('reader', 'admin')" th:href="@{/borrows}">
                 <i data-feather="book-open" class="align-text-bottom"></i>
                 Wypożyczenia
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:classappend="${#httpServletRequest.getRequestURI() == '/editUser' ? 'active':''}" sec:authorize="hasRole('reader')" th:href="@{/editUser}">
+              <a class="nav-link" th:classappend="${#httpServletRequest.getRequestURI() == '/editUser' ? 'active':''}" sec:authorize="hasAnyRole('reader', 'admin')" th:href="@{/editUser}">
                 <i data-feather="user" class="align-text-bottom"></i>
                 Edytuj dane użytkownika
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:classappend="${#httpServletRequest.getRequestURI() == '/editPriviliges' ? 'active':''}" sec:authorize="hasRole('admin')" th:href="@{/editPriviliges}">
+                <i data-feather="users" class="align-text-bottom"></i>
+                Edytuj uprawnienia użytkowników
               </a>
             </li>
           </ul>

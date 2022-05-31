@@ -5,10 +5,7 @@
 package com.ksienica.library.controllers;
 
 import com.ksienica.library.Definitions;
-import com.ksienica.library.entities.Book;
 import com.ksienica.library.services.BookService;
-import java.util.Collection;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
