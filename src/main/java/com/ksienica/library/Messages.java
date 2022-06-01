@@ -13,6 +13,8 @@ public final class Messages {
     //Success messages
     public final static String SUCCESS_USER_REGISTERED = "Użytkownik został zarejestorwany!";
     public final static String SUCCESS_USER_EDITED = "Edycja użytkownika zakończona pomyślnie!";
+    public final static String SUCCESS_BOOK_EDITED = "Edycja książki zakończona pomyślnie!";
+    public final static String SUCCESS_BOOK_REMOVED = "Książka została usunięta";
     
     //Error messages
     public static final String ERROR_PASSWORD_DIFFERENT = "Podane hasła nie są takie same!";
@@ -31,5 +33,9 @@ public final class Messages {
     public static final String ERROR_CITY_FORMAT_INCORRECT = "Miasto jest w nieprawidłowym formacie.";
     public static final String ERROR_USER_INVALID_ROLE = "Podana rola nie istnieje w systemie.";
     public static final String ERROR_ONE_ADMIN_REQUIRED = "W systemie musi istnieć przynajmniej jeden administrator!";
+    public static final String ERROR_BOOK_NOT_FOUND = "Nie znaleziono książki.";
+    public static final String ERROR_INCORRECT_FILE = "Plik jest niepoprawny.";
+    public static final String ERROR_SAVE_FILE = "Wystąpił błąd podczas zapisu pliku.";
+    public static final String ERROR_BOOK_EXISTS = "Książka o podanym Id już istnieje";
     
 }

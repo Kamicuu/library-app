@@ -10,6 +10,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -17,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -27,10 +30,8 @@ import javax.validation.constraints.Size;
 public class Book {
     
     @Id
-    @Column(name = "id")
-    @Size(min = 1, max = 100)
-    @NotBlank
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     
     @Column(name = "isbn")
     @Size(min = 1, max = 100)
@@ -47,8 +48,8 @@ public class Book {
     private String author;
     
     @Column(name = "publication_date")
-    @NotBlank
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date publicationDate;
     
     @Column(name = "language")
@@ -70,17 +71,16 @@ public class Book {
     private String imageUrl;
     
     @Column(name = "can_be_borrowed")
-    @NotBlank
     private boolean canBeBorrowed;
     
     @ManyToMany(mappedBy = "likedBooks", fetch = FetchType.LAZY)
     private Set<Borrowing> likedBorrowings;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

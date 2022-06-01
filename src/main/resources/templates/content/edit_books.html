@@ -13,7 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <body>
         <div th:fragment="content">
             
-            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
+             <div th:if="${error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
                 <strong>Błąd!</strong><p th:text="${error}"></p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -24,58 +24,61 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
             
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-               <h1 class="h2">Edytuj uprawienia użytkowników</h1>
+               <h1 class="h2">Edytuj książki</h1>
             </div>
-            <form method="get" th:action="@{/editPriviliges}">
+            
+            <form method="get" th:action="@{/editBooks}">
                 <div class="input-group mb-3">
                     <input class="form-control rounded-0 w-50" type="text" name="searchText" placeholder="Wpisz szukaną wartość"/>
+                    <select class="form-select rounded-0" name="searchType">
+                        <option th:value="${searchTitle}" selected="true">Tytuł</option>
+                        <option th:value="${searchAuthor}">Autor</option>
+                    </select>
                     <button class="btn btn-outline-secondary rounded-0" type="submit">Szukaj</button>
                 </div>
             </form>
+            
+            <div class="d-flex justify-content-center mt-5">
+                <a class="btn btn-outline-secondary w-75" th:href="@{/editBook/addBook}" role="button">Dodaj książkę</a>
+            </div>
+            
             <div class="table-responsive mt-5">
               <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col">Id</th>
-                  <th scope="col">Login</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Rola</th>
+                  <th scope="col">ISBN/EAN</th>
+                  <th scope="col">Tytuł</th>
+                  <th scope="col">Autor</th>
+                  <th scope="col">Rok wydania</th>
+                  <th scope="col">Wydawnictwo</th>
+                  <th scope="col">Edytuj książkę</th>
+                  <th scope="col">Usuń książkę</th>
                 </tr>
               </thead>
               <tbody>
-                <tr th:if="${users?.empty}">
-                    <td colspan="2"> No Users Available </td>
+                <tr th:if="${books.empty}">
+                    <td colspan="2"> No Books Available </td>
                 </tr>
-                <tr th:each="user : ${users}">
-                    <td><span th:text="${user.id}">Id</span></td>
-                    <td><span th:text="${user.login}">Login</span></td>
-                    <td><span th:text="${user.email}">Email</span></td>
-                    <!--<td><span th:text="${user.role}">Role</span></td>-->
-                    <td>
-                        <form class="form-control-sm" method="post" th:action="@{/editPriviliges(userId=${user.id})}">
-                            <select class="form-select rounded-0" onfocus="this.oldvalue = this.value;" name="role" onchange="(function(element){
-                                if (confirm('Czy jesteś pewien że chcesz zmienić uprawnienia tego użytkownika?')){
-                                    element.closest('form').submit()
-                                }else{
-                                    element.value = element.oldvalue;
-                                } 
-                            })(this)">
-                                <option th:each="role : ${roles}" th:value="${role}" th:text="${role}" th:selected="${role==user.role}"></option>
-                            </select>
-                        </form>
-                    </td>
+                <tr th:each="book : ${books}">
+                    <td><span th:text="${book.isbn}">Isbn</span></td>
+                    <td><a th:text="${book.title}" th:href="@{/bookDetails(bookId=${book.id})}">Title</a></td>
+                    <td><span th:text="${book.author}">Author</span></td>
+                    <td><span th:text="${book.publicationDate}">Publication date</span></td>
+                    <td><span th:text="${book.publishingHouse}">Publishing House</span></td>
+                    <td><a th:href="@{/editBook(bookId=${book.id})}"><i data-feather="edit"></i></a></td>
+                    <td><a th:href="@{/deleteBook(bookId=${book.id})}"><i data-feather="trash-2"></i></a></td>
                 </tr>
               </tbody>
             </table>
             <div class="d-flex">
                <div th:if="${pageNum > 0}" class="m-1">
-                    <a th:href="@{/editPriviliges(page=${pageNum}-1, searchText=${searchText})}"
+                    <a th:href="@{/editBooks(page=${pageNum}-1, searchText=${searchText}, searchType=${searchType})}"
                         th:text="${pageNum}-1"></a>
                 </div>
                 <div class="m-1" th:text="${pageNum}">
                 </div>
                 <div th:if="${pageNum >= 0}" class="m-1">
-                    <a th:href="@{/editPriviliges(page=${pageNum}+1, searchText=${searchText})}"
+                    <a th:href="@{/editBooks(page=${pageNum}+1, searchText=${searchText}, searchType=${searchType})}"
                         th:text="${pageNum}+1"></a>
                 </div> 
             </div>

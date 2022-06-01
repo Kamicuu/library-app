@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+    <title></title>
+    </head>
+    <body>   
+        <div th:fragment="content">
+
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Błąd!</strong><p th:text="${error}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+               <h1 class="h2">Szczegóły</h1>
+            </div>
+            
+            <div class="d-flex justify-content-center">
+                <div th:if="${book != null}" class="card my-5 rounded-0 w-75" style="max-width: 1200px; min-width: 730px">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img th:src="${book?.imageUrl}" class="img-fluid rounded-start" alt="Image not found"/>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title" th:text="${book?.title}">Card title</h5>
+                      <div class="card-text" th:text="${book?.description}">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</div>
+                      <div class="d-flex flex-column mt-3">
+                            <span><strong>Autor: </strong> <span th:text="${book?.author}"></span></span>
+                            <span><strong>Wydawnictwo: </strong> <span th:text="${book?.publishingHouse}"></span></span>
+                            <span><strong>Data wydania: </strong> <span th:text="${book?.publicationDate}"></span></span>
+                            <span><strong>ISBN/EAN: </strong> <span th:text="${book?.isbn}"></span></span>
+                            <span><strong>Język: </strong> <span th:text="${book?.language}"></span></span>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                          <button type="submit" class="btn btn-primary btn-block mb-4 mt-4">Wypożycz</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div> 
+    </body>
+</html>

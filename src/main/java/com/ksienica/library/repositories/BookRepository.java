@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  * @author Kamil
  */
 @Repository
-public interface BookRepository extends JpaRepository<Book, String>{
+public interface BookRepository extends JpaRepository<Book, Integer>{
     
     @Query(value = "SELECT LIBRARYDB.BOOK.* FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL",
     countQuery = "SELECT count(*) FROM LIBRARYDB.BOOK LEFT JOIN LIBRARYDB.BORROWING_BOOK BB on LIBRARYDB.BOOK.ID = BB.ID_BOOK LEFT JOIN LIBRARYDB.BORROWING B on B.ID = BB.ID_BORROWING WHERE B.RETURNING_DATE IS NULL;",

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+    <title></title>
+    </head>
+    <body>   
+        <div th:fragment="content">
+
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Błąd!</strong><p th:text="${error}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div th:if="${sucess}" class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Sukces!</strong><p th:text="${sucess}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+               <h1 class="h2">Edytuj książkę</h1>
+            </div>
+            
+            <div class="d-flex justify-content-center">
+                <div th:if="${book != null}" class="card my-5 rounded-0 w-75" style="max-width: 1200px; min-width: 730px">
+                    
+                    <form name="edit_book" id="edit_book" method="post" th:action="@{/editBook}"></form>
+                    <form name="edit_photo" enctype="multipart/form-data" id="edit_photo" method="post" th:action="@{/editBook/photo}"></form>
+
+                    <input form="edit_book" type="hidden" name="id" th:value="${book?.id}"/>
+                    <input form="edit_photo" type="hidden" name="bookId" th:value="${book?.id}"/>
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                         <img th:src="${book?.imageUrl}" class="img-fluid rounded-start" alt="Image not found"/>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                               <h5 class="card-title me-3">Tytuł: </h5>
+                               <input type="text" id="title" name="title" class="form-control form-control-sm" form="edit_book" th:value="${book?.title}"/>
+                            </div>
+                            <div class="card-text mt-3" >
+                                <textarea placeholder="Opis książki..." style="min-height: 200px;" id="description" class="form-control" name="description" form="edit_book" th:text="${book?.description}"></textarea>
+                            </div>
+                            <div class="d-flex flex-column mt-3">
+                                 <span><strong>Autor: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="author" th:value="${book?.author}"/></span>
+                                 <span><strong>Wydawnictwo: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="publishingHouse" th:value="${book?.publishingHouse}"/></span>
+                                 <span><strong>Data wydania: </strong> <input class="form-control form-control-sm" form="edit_book" type="date" name="publicationDate" th:value="${book?.publicationDate}"/></span>
+                                 <span><strong>ISBN/EAN: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="isbn" th:value="${book?.isbn}"/></span>
+                                 <span><strong>Język: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="language" th:value="${book?.language}"/></span>
+                                 <span><strong>Blokada wypożyczenia: </strong>
+                                     <select th:field="*{book.canBeBorrowed}" form="edit_book" name="canBeBorrowed"class="form-control form-control-sm">
+                                         <option th:value="1">Nie</option>
+                                         <option th:value="0">Tak</option>
+                                     </select>
+                                 </span>
+                                 <br>
+                                     <span><strong>Zmień zdjęcie </strong> <input class="form-control form-control-sm" form="edit_photo"  accept="image/jpeg" type="file" name="photo" onchange="this.form.submit();"/></span>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button form="edit_book" type="submit" class="btn btn-primary btn-block mb-4 mt-4">Edytuj</button>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div th:if="${book == null}" class="card my-5 rounded-0 w-75" style="max-width: 1200px; min-width: 730px">
+                    <form name="edit_book" id="edit_book" method="post" th:action="@{/editBook/addBook}"></form>
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                               <h5 class="card-title me-3">Tytuł: </h5>
+                               <input type="text" id="title" name="title" class="form-control form-control-sm" form="edit_book"/>
+                            </div>
+                            <div class="card-text mt-3" >
+                                <textarea placeholder="Opis książki..." style="min-height: 200px;" id="description" class="form-control" name="description" form="edit_book"></textarea>
+                            </div>
+                            <div class="d-flex flex-column mt-3">
+                                 <span><strong>Autor: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="author"/></span>
+                                 <span><strong>Wydawnictwo: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="publishingHouse"/></span>
+                                 <span><strong>Data wydania: </strong> <input class="form-control form-control-sm" form="edit_book" type="date" name="publicationDate"/></span>
+                                 <span><strong>ISBN/EAN: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="isbn"/></span>
+                                 <span><strong>Język: </strong> <input class="form-control form-control-sm" form="edit_book" type="text" name="language"/></span>
+                                 <span><strong>Blokada wypożyczenia: </strong>
+                                     <select form="edit_book" name="canBeBorrowed"class="form-control form-control-sm">
+                                         <option value="1" selected="true">Nie</option>
+                                         <option value="0">Tak</option>
+                                     </select>
+                                 </span>
+                                 <br>
+                                     <span><strong>Zmień zdjęcie </strong> <input disabled="true" class="form-control form-control-sm" form="edit_photo"  accept="image/jpeg" type="file" name="photo" onchange="this.form.submit();"/></span>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button form="edit_book" type="submit" class="btn btn-primary btn-block mb-4 mt-4">Dodaj</button>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </body>
+</html>
