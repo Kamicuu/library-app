@@ -32,6 +32,8 @@ public final class Definitions {
     public static final String URL_EDIT_BOOK_PHOTO="/editBook/photo";
     public static final String URL_ADD_BOOK="/editBook/addBook";
     public static final String URL_DELETE_BOOK="/deleteBook";
+    public static final String URL_ADD_BOOK_TO_BORROW ="/bookDetails/addBook";
+    public static final String URL_BOOK_CART ="/bookCart";
     
     //View's
     public static final String VIEW_ERROR="error";
@@ -44,6 +46,7 @@ public final class Definitions {
     public static final String VIEW_BOOK_DETAILS="book_details";
     public static final String VIEW_EDIT_BOOKS="edit_books";
     public static final String VIEW_EDIT_BOOK="edit_book";
+    public static final String VIEW_BOOK_BORROW_CART="book_borrow_cart";
     
     //SearchParameters
     public static final String SEARCH_TITLE="title";

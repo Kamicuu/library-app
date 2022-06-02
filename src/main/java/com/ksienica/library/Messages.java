@@ -15,6 +15,7 @@ public final class Messages {
     public final static String SUCCESS_USER_EDITED = "Edycja użytkownika zakończona pomyślnie!";
     public final static String SUCCESS_BOOK_EDITED = "Edycja książki zakończona pomyślnie!";
     public final static String SUCCESS_BOOK_REMOVED = "Książka została usunięta";
+    public final static String SUCCESS_BOOK_ADDED_TO_CART= "Książka została dodana do koszyka wypożyczeń!";
     
     //Error messages
     public static final String ERROR_PASSWORD_DIFFERENT = "Podane hasła nie są takie same!";
@@ -37,5 +38,8 @@ public final class Messages {
     public static final String ERROR_INCORRECT_FILE = "Plik jest niepoprawny.";
     public static final String ERROR_SAVE_FILE = "Wystąpił błąd podczas zapisu pliku.";
     public static final String ERROR_BOOK_EXISTS = "Książka o podanym Id już istnieje";
+    public static final String ERROR_BOOK_ALREADY_EXISTS_IN_CART = "Książka o podanym Id została dodana do koszyka wypożyczeń!";
+    public static final String ERROR_BOOK_NOT_FOUND_IN_CART = "Brak książek w koszyku wypożyczeń!";
+    public static final String ERROR_TOO_MANY_BOOKS_IN_CART = "Limit książek do wypożyczenia został osiągnięty.";
     
 }
