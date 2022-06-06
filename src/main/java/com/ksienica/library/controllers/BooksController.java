@@ -11,16 +11,12 @@ import com.ksienica.library.exceptions.BookCartExeption;
 import com.ksienica.library.exceptions.BookServiceExeptions;
 import com.ksienica.library.services.BookCartService;
 import com.ksienica.library.services.BookService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,9 +31,6 @@ public class BooksController {
     
     @Autowired
     BookService bookService;
-    
-    @Autowired
-    BookCartService bookCartService;
     
     //Display books list
     @GetMapping(path = Definitions.URL_BOOKS)
@@ -172,29 +165,5 @@ public class BooksController {
             model.addAttribute("books", bookService.getFreeBooks(page, size));
         }
          return Definitions.VIEW_EDIT_BOOKS;    
-    }
-    
-    @GetMapping(value = Definitions.URL_ADD_BOOK_TO_BORROW)
-    public String addBookToBorrow(HttpServletRequest request, @RequestParam int bookId, final Model model){
-    
-        try {
-            model.addAttribute("book", bookCartService.addBookToBorrowCart(bookService.getBook(bookId), request.getSession()));
-            model.addAttribute("sucess", Messages.SUCCESS_BOOK_ADDED_TO_CART);
-        } catch (BookServiceExeptions|BookCartExeption ex) {
-            model.addAttribute("error", ex.getMessage());
-        }
-        return Definitions.VIEW_BOOK_DETAILS;    
-    }
-    
-    @GetMapping(value = Definitions.URL_BOOK_CART)
-    public String getBorrowCartView(HttpServletRequest request, final Model model){
-    
-        try {
-            model.addAttribute("book", bookCartService.getBooksFromBorrowCart(request.getSession()));
-        } catch (BookCartExeption ex) {
-            model.addAttribute("error", ex.getMessage());
-        }
-        
-        return Definitions.VIEW_BOOK_BORROW_CART;        
     }
 }

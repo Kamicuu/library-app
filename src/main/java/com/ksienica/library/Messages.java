@@ -41,5 +41,6 @@ public final class Messages {
     public static final String ERROR_BOOK_ALREADY_EXISTS_IN_CART = "Książka o podanym Id została dodana do koszyka wypożyczeń!";
     public static final String ERROR_BOOK_NOT_FOUND_IN_CART = "Brak książek w koszyku wypożyczeń!";
     public static final String ERROR_TOO_MANY_BOOKS_IN_CART = "Limit książek do wypożyczenia został osiągnięty.";
+    public static final String ERROR_BOOK_NO_AVAILABLE= "Książka nie jest dostępna. Pozycja: ";
     
 }

@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .permitAll()
             ).authorizeRequests()
             //Permit all
-            .antMatchers(Definitions.URL_CSS, Definitions.URL_JS, Definitions.URL_HOME, Definitions.URL_BOOKS, Definitions.URL_BOOK_DETAILS)
+            .antMatchers(Definitions.URL_CSS, Definitions.URL_JS, Definitions.URL_HOME, Definitions.URL_IMAGES, Definitions.URL_BOOKS, Definitions.URL_BOOK_DETAILS)
             .permitAll()
             //Permit anonymus
             .antMatchers(Definitions.URL_REGISTER)

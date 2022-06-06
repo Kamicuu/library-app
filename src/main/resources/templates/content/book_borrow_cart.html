@@ -12,6 +12,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     </head>
     <body>
         <div th:fragment="content">
+            
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Błąd!</strong><p th:text="${error}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div th:if="${sucess}" class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Sukces!</strong><p th:text="${sucess}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                <h1 class="h2">Koszyk wypożyczeń</h1>
             </div>
@@ -24,11 +35,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                   <th scope="col">Autor</th>
                   <th scope="col">Rok wydania</th>
                   <th scope="col">Wydawnictwo</th>
+                  <th scope="col">Usuń</th>
                 </tr>
               </thead>
               <tbody>
-                <tr th:if="${books == null}">
-                    <td colspan="2"> No Books Available </td>
+                <tr th:if="${books == null or books?.size()==0 }">
+                    <td colspan="6"> No Books Available </td>
                 </tr>
                 <tr th:each="book : ${books}">
                     <td><span th:text="${book.isbn}">Isbn</span></td>
@@ -36,9 +48,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td><span th:text="${book.author}">Author</span></td>
                     <td><span th:text="${book.publicationDate}">Publication date</span></td>
                     <td><span th:text="${book.publishingHouse}">Publishing House</span></td>
+                    <td><a th:href="@{/bookCart/removeBook(bookId=${book.id})}"><i data-feather="trash-2"></i></a></td>
                 </tr>
               </tbody>
             </table>
+                <div>
+                    <a class="btn btn-outline-secondary" th:href="@{/makeBorrow}" >Wypożycz wybrane pozycje</a>
+                </div>
           </div>
         </div>
     </body>

@@ -44,7 +44,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
               </thead>
               <tbody>
                 <tr th:if="${users?.empty}">
-                    <td colspan="2"> No Users Available </td>
+                    <td colspan="4"> No Users Available </td>
                 </tr>
                 <tr th:each="user : ${users}">
                     <td><span th:text="${user.id}">Id</span></td>

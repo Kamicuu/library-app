@@ -57,7 +57,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
               </thead>
               <tbody>
                 <tr th:if="${books.empty}">
-                    <td colspan="2"> No Books Available </td>
+                    <td colspan="7"> No Books Available </td>
                 </tr>
                 <tr th:each="book : ${books}">
                     <td><span th:text="${book.isbn}">Isbn</span></td>

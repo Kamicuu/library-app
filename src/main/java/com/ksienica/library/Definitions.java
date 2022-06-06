@@ -20,6 +20,7 @@ public final class Definitions {
     //URL's
     public static final String URL_CSS="/css/**";
     public static final String URL_JS="/js/**";
+    public static final String URL_IMAGES="/uploads/images/**";
     public static final String URL_HOME="/";
     public static final String URL_LOGIN="/login";
     public static final String URL_REGISTER="/register";
@@ -33,7 +34,9 @@ public final class Definitions {
     public static final String URL_ADD_BOOK="/editBook/addBook";
     public static final String URL_DELETE_BOOK="/deleteBook";
     public static final String URL_ADD_BOOK_TO_BORROW ="/bookDetails/addBook";
+    public static final String URL_REMOVE_BOOK_TO_BORROW ="/bookCart/removeBook";
     public static final String URL_BOOK_CART ="/bookCart";
+    public static final String URL_MAKE_BORROW ="/makeBorrow";
     
     //View's
     public static final String VIEW_ERROR="error";
