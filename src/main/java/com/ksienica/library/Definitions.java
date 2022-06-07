@@ -37,6 +37,8 @@ public final class Definitions {
     public static final String URL_REMOVE_BOOK_TO_BORROW ="/bookCart/removeBook";
     public static final String URL_BOOK_CART ="/bookCart";
     public static final String URL_MAKE_BORROW ="/makeBorrow";
+    public static final String URL_BORROWS ="/borrows";
+    public static final String URL_RETURN_BORROW ="/borrows/returnBorrow";
     
     //View's
     public static final String VIEW_ERROR="error";
@@ -50,6 +52,7 @@ public final class Definitions {
     public static final String VIEW_EDIT_BOOKS="edit_books";
     public static final String VIEW_EDIT_BOOK="edit_book";
     public static final String VIEW_BOOK_BORROW_CART="book_borrow_cart";
+    public static final String VIEW_BORROWS="book_borrows";
     
     //SearchParameters
     public static final String SEARCH_TITLE="title";

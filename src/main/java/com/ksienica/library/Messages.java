@@ -16,6 +16,7 @@ public final class Messages {
     public final static String SUCCESS_BOOK_EDITED = "Edycja książki zakończona pomyślnie!";
     public final static String SUCCESS_BOOK_REMOVED = "Książka została usunięta";
     public final static String SUCCESS_BOOK_ADDED_TO_CART= "Książka została dodana do koszyka wypożyczeń!";
+    public final static String SUCCESS_BOOKS_BORROWED= "Książki zostały wypożyczone";
     
     //Error messages
     public static final String ERROR_PASSWORD_DIFFERENT = "Podane hasła nie są takie same!";
@@ -42,5 +43,8 @@ public final class Messages {
     public static final String ERROR_BOOK_NOT_FOUND_IN_CART = "Brak książek w koszyku wypożyczeń!";
     public static final String ERROR_TOO_MANY_BOOKS_IN_CART = "Limit książek do wypożyczenia został osiągnięty.";
     public static final String ERROR_BOOK_NO_AVAILABLE= "Książka nie jest dostępna. Pozycja: ";
+    public static final String ERROR_USER_DETAILS_NOT_FOUND= "Wypełnij szczegóły użytkownika w opcjach edycji użytkownika!";
+    public static final String ERROR_BORROWS_LIMIT_EXCEED= "Limit aktywnych wypożyczeń został osiągnięty!";
+    public static final String ERROR_BORROW_NOT_FINISHED= "Wypożyczenie nie zostało zamknięte, być może zostało zamknięte wcześniej lub nie masz uprawnień do zamknięcia tego wypożyczenia.";
     
 }

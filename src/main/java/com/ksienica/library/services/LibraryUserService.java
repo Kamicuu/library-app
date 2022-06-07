@@ -90,6 +90,22 @@ public class LibraryUserService{
     
     }
     
+    public boolean checkIfUserHasDetailsData(String username){
+    
+        var user = Optional.ofNullable(userRepo.findByLogin(username).getUserDetails()).orElse(new UserDetails());
+        
+        if(user.getCity()==null 
+                || user.getFirstName()==null
+                || user.getLastName()==null
+                || user.getNumber()==null
+                || user.getPhoneNumber()==null
+                || user.getPostCode()==null
+                || user.getStreet()==null){
+         return false;
+        }else return true;
+        
+    }
+    
     public void editUser(UserEditDto user, String username) throws UserServiceException{
         
 
@@ -125,6 +141,12 @@ public class LibraryUserService{
         
         userRepo.save(basicUser);
         
+    }
+    
+    public String getUserRole(String username){
+        
+        return userRepo.findByLogin(username).getRole();
+    
     }
     
     public void editUserRole(int userId, String userRole) throws UserServiceException{

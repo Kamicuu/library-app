@@ -42,7 +42,7 @@ public class SecurityConfig {
             .antMatchers(Definitions.URL_REGISTER)
             .anonymous()
             //Permit users
-            .antMatchers(Definitions.URL_EDIT_USER)
+            .antMatchers(Definitions.URL_EDIT_USER, Definitions.URL_ADD_BOOK_TO_BORROW, Definitions.URL_BOOK_CART)
             .hasAnyRole(Definitions.USER_READER_ROLE, Definitions.USER_LIBRARIAN_ROLE, Definitions.USER_ADMIN_ROLE)
             //Permit librarian
             .antMatchers(Definitions.URL_EDIT_BOOKS, Definitions.URL_EDIT_BOOK, Definitions.URL_ADD_BOOK)

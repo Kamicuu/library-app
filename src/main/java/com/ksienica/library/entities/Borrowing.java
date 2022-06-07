@@ -17,7 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -45,6 +45,10 @@ public class Borrowing {
       joinColumns = @JoinColumn(name = "id_borrowing"), 
       inverseJoinColumns = @JoinColumn(name = "id_book"))
     private List<Book> likedBooks;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_user")
+    private User likedUser;
         
     @PrePersist
     protected void onInsert() {
@@ -82,4 +86,13 @@ public class Borrowing {
     public void setLikedBooks(List<Book> likedBooks) {
         this.likedBooks = likedBooks;
     }
+
+    public User getLikedUser() {
+        return likedUser;
+    }
+
+    public void setLikedUser(User likedUser) {
+        this.likedUser = likedUser;
+    }
+    
 }

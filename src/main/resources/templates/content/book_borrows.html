@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+               <h1 class="h2">Lista wypożyczeń</h1>
+            </div>
+            <div class="table-responsive mt-5">
+              
+            <table class="table table-dark mb-0">
+              <thead>
+                <tr>
+                  <th scope="col" style="max-width: 50px; min-width: 50px">ID</th>
+                  <th scope="col">Data wypożyczenia</th>
+                  <th scope="col">Data zwrotu</th>
+                  <th scope="col"><span style="float: inline-end">Dokonaj zwortu</span></th>
+                </tr>
+              </thead>  
+            </table>
+            <div th:if="${borrows != null or borrows?.size()!=0}">
+                <table class="table table-primary mb-0" th:each="borrow : ${borrows}">
+                    <tr>
+                        <th scope="row" style="max-width: 50px; min-width: 50px"><span th:text="${borrow.id}"></span></th>
+                        <td><span th:text="${borrow.borrowingDate}"></span></td>
+                        <td>
+                            <span th:if="${borrow.returningDate != null}" th:text="${borrow.returningDate}"></span>
+                            <span th:unless="${borrow.returningDate != null}"><b>Aktywne wypożyczenie</b></span>
+                        </td>
+                        <td>
+                            <a th:if="${borrow.returningDate == null}" th:href="@{/borrows/returnBorrow(borrowId=${borrow.id})}"><i data-feather="corner-down-left"></i></a>
+                            <span th:unless="${borrow.returningDate == null}"><i data-feather="corner-down-left"></i></span>
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <table class="table table-light">
+                                <tbody>
+                                  <tr th:if="${borrow.likedBooks == null or borrow.likedBooks?.size()==0}">
+                                      <td colspan="5"> No Books Available </td>
+                                  </tr>
+                                  <tr th:each="book : ${borrow?.likedBooks}">
+                                      <td><span th:text="${book.isbn}">Isbn</span></td>
+                                      <td><span th:text="${book.title}">Title</span></td>
+                                      <td><span th:text="${book.author}">Author</span></td>
+                                      <td><span th:text="${book.publicationDate}">Publication date</span></td>
+                                      <td><span th:text="${book.publishingHouse}">Publishing House</span></td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="d-flex">
+               <div th:if="${pageNum > 0}" class="m-1">
+                    <a th:href="@{/books(page=${pageNum}-1, searchText=${searchText}, searchType=${searchType})}"
+                        th:text="${pageNum}-1"></a>
+                </div>
+                <div class="m-1" th:text="${pageNum}">
+                </div>
+                <div th:if="${pageNum >= 0}" class="m-1">
+                    <a th:href="@{/books(page=${pageNum}+1, searchText=${searchText}, searchType=${searchType})}"
+                        th:text="${pageNum}+1"></a>
+                </div> 
+            </div>
+          </div>
+        </div>
+    </body>
+</html>

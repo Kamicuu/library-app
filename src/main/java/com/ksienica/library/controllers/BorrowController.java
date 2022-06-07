@@ -10,6 +10,9 @@ import com.ksienica.library.exceptions.BookCartExeption;
 import com.ksienica.library.exceptions.BookServiceExeptions;
 import com.ksienica.library.services.BookCartService;
 import com.ksienica.library.services.BookService;
+import java.security.Principal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,14 +75,41 @@ public class BorrowController {
     }
     
     @GetMapping(value = Definitions.URL_MAKE_BORROW)
-    public String borrowBooks(HttpServletRequest request, final Model model){
+    public String borrowBooks(HttpServletRequest request, Principal principal, final Model model){
     
         try {
-            bookCartService.makeBorrow(request.getSession());
+           bookCartService.makeBorrow(request.getSession(), principal.getName());
+           model.addAttribute("sucess", Messages.SUCCESS_BOOKS_BORROWED);
         } catch (BookCartExeption|BookServiceExeptions ex) {
+            try {
+                model.addAttribute("books", bookCartService.getBooksFromBorrowCart(request.getSession()));
+            } catch (BookCartExeption ex1) {
+                model.addAttribute("error", ex.getMessage());
+            }
            model.addAttribute("error", ex.getMessage());
         }
         return Definitions.VIEW_BOOK_BORROW_CART;    
+    }
+    
+    @GetMapping(value = Definitions.URL_BORROWS)
+    public String getBorrowsView(HttpServletRequest request, Principal principal, final Model model){
+        
+        model.addAttribute("borrows", bookCartService.getBorrowsByUser(principal.getName()));;
+    
+        return Definitions.VIEW_BORROWS;
+    }
+    
+    @GetMapping(value = Definitions.URL_RETURN_BORROW)
+    public String returnBorrow(@RequestParam int borrowId, HttpServletRequest request, Principal principal, final Model model){
+    
+        try {
+            bookCartService.returnBorrow(borrowId, principal.getName());
+        } catch (BookCartExeption ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
+    
+        return Definitions.VIEW_BORROWS;
+        
     }
       
 }
