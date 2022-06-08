@@ -117,6 +117,26 @@ public class BookCartService {
                
     }
     
+    public List<Borrowing> getBorrows(String login, int page, int size, boolean showOnlyBorrowed, boolean showAllBorrows){
+        
+        //checkin roles
+        var role = userService.getUserRole(login);
+        
+        if(role.equals(Definitions.USER_LIBRARIAN_ROLE) || role.equals(Definitions.USER_ADMIN_ROLE)){
+            
+            if(showAllBorrows&&showOnlyBorrowed){
+                return getAllOnlyBorrowed(page, size);
+            }
+            else if(showAllBorrows){
+                return getAllBorrows(page, size);
+            }else if(showOnlyBorrowed){
+                return getOnlyBorrowedByUser(login);
+            } 
+        }
+        
+        return getBorrowsByUser(login);
+    }
+    
     public List<Borrowing> getBorrowsByUser(String login){
     
         var borrows = userRepo.findByLogin(login).getLikedBorrowings();
@@ -127,11 +147,40 @@ public class BookCartService {
         return borrows;
     }
     
-    public List<Borrowing> getBorrows(int page, int size){
+    public List<Borrowing> getOnlyBorrowedByUser(String login){
+    
+        var borrows = userRepo.findByLogin(login).getLikedBorrowings();
+        var onlyNotFinished = new ArrayList<Borrowing>();
+        
+        for(var borrow : borrows){
+            //trigger loading books
+            borrow.getLikedBooks().size();
+            
+            if(borrow.getReturningDate()==null)
+                onlyNotFinished.add(borrow);
+        }
+        
+        return onlyNotFinished;
+    }
+    
+    public List<Borrowing> getAllOnlyBorrowed(int page, int size){
+    
+        PageRequest paging = PageRequest.of(page, size);
+    
+        var borrows = borrowRepo.findAllNotFinished(paging);
+        
+        //trigger loading books
+        borrows.forEach(borrow->borrow.getLikedBooks().size());
+        
+        return borrows.toList();
+    }
+    
+    public List<Borrowing> getAllBorrows(int page, int size){
         
         PageRequest paging = PageRequest.of(page, size);
     
-        var borrows = borrowRepo.findAll(paging);
+        var borrows = borrowRepo.findAllByOrderByReturningDate(paging);
+
         
         //trigger loading books
         borrows.forEach(borrow->borrow.getLikedBooks().size());

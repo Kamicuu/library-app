@@ -12,64 +12,116 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     </head>
     <body>
         <div th:fragment="content">
+            <script type="text/javascript" th:inline="javascript">
+            /*<![CDATA[*/
+            const baseUrl = /*[[@{/borrows}]]*/ "";
+            const pageNum = /*[[${pageNum}]]*/ "";
+            const showOnlyBorrowed = /*[[${showOnlyBorrowed}]]*/ "";
+            const showAllBorrows = /*[[${showAllBorrows}]]*/ "";
+            
+            function inputHrefToBorrowed(){
+                if(document.getElementById("href_checkbox_onlyBorrowed").checked){
+                    window.location.href =  baseUrl+"?pageNum="+pageNum+"&showAllBorrows="+showAllBorrows+"&showOnlyBorrowed=true";
+                }
+                else{
+                    window.location.href =  baseUrl+"?pageNum="+pageNum+"&showAllBorrows="+showAllBorrows+"&showOnlyBorrowed=false";
+                }
+            }
+            
+            function inputHrefToShowAll(){
+                if(document.getElementById("href_checkbox_allBorrows").checked){
+                    window.location.href =  baseUrl+"?pageNum="+pageNum+"&showOnlyBorrowed="+showOnlyBorrowed+"&showAllBorrows=true";
+                }
+                else{
+                    window.location.href =  baseUrl+"?pageNum="+pageNum+"&showOnlyBorrowed="+showOnlyBorrowed+"&showAllBorrows=false";
+                }
+            }
+            /*]]>*/
+            </script>
+            
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Błąd!</strong><p th:text="${error}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div th:if="${sucess}" class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert">
+                <strong>Sukces!</strong><p th:text="${sucess}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                <h1 class="h2">Lista wypożyczeń</h1>
             </div>
             <div class="table-responsive mt-5">
-              
-            <table class="table table-dark mb-0">
-              <thead>
-                <tr>
-                  <th scope="col" style="max-width: 50px; min-width: 50px">ID</th>
-                  <th scope="col">Data wypożyczenia</th>
-                  <th scope="col">Data zwrotu</th>
-                  <th scope="col"><span style="float: inline-end">Dokonaj zwortu</span></th>
-                </tr>
-              </thead>  
-            </table>
-            <div th:if="${borrows != null or borrows?.size()!=0}">
-                <table class="table table-primary mb-0" th:each="borrow : ${borrows}">
+                <div class="ms-2" sec:authorize="hasAnyRole('admin', 'librarian')">
+                    <h6>Ustawienia</h6>
+                    <hr/>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" onclick="inputHrefToBorrowed()" th:checked="${showOnlyBorrowed}" id="href_checkbox_onlyBorrowed"/>
+                        <label class="form-check-label" for="href_checkbox_onlyBorrowed">
+                          Wyświetl tylko wypożyczone
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" onclick="inputHrefToShowAll()" th:checked="${showAllBorrows}" id="href_checkbox_allBorrows"/>
+                        <label class="form-check-label" for="href_checkbox_allBorrows">
+                          Wyświetl wypożyczenia wszystkich użytkowników
+                        </label>
+                    </div>
+                </div>
+                <table class="table table-dark mb-0 mt-5">
+                  <thead>
                     <tr>
-                        <th scope="row" style="max-width: 50px; min-width: 50px"><span th:text="${borrow.id}"></span></th>
-                        <td><span th:text="${borrow.borrowingDate}"></span></td>
-                        <td>
-                            <span th:if="${borrow.returningDate != null}" th:text="${borrow.returningDate}"></span>
-                            <span th:unless="${borrow.returningDate != null}"><b>Aktywne wypożyczenie</b></span>
-                        </td>
-                        <td>
-                            <a th:if="${borrow.returningDate == null}" th:href="@{/borrows/returnBorrow(borrowId=${borrow.id})}"><i data-feather="corner-down-left"></i></a>
-                            <span th:unless="${borrow.returningDate == null}"><i data-feather="corner-down-left"></i></span>
-                        </td>    
+                      <th scope="col" style="max-width: 50px; min-width: 50px">ID</th>
+                      <th scope="col">Data wypożyczenia</th>
+                      <th scope="col">Data zwrotu</th>
+                      <th scope="col"><span style="float: inline-end">Dokonaj zwortu</span></th>
                     </tr>
-                    <tr>
-                        <td colspan="4">
-                            <table class="table table-light">
-                                <tbody>
-                                  <tr th:if="${borrow.likedBooks == null or borrow.likedBooks?.size()==0}">
-                                      <td colspan="5"> No Books Available </td>
-                                  </tr>
-                                  <tr th:each="book : ${borrow?.likedBooks}">
-                                      <td><span th:text="${book.isbn}">Isbn</span></td>
-                                      <td><span th:text="${book.title}">Title</span></td>
-                                      <td><span th:text="${book.author}">Author</span></td>
-                                      <td><span th:text="${book.publicationDate}">Publication date</span></td>
-                                      <td><span th:text="${book.publishingHouse}">Publishing House</span></td>
-                                  </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                  </thead>  
                 </table>
+                <div th:if="${borrows != null or borrows?.size()!=0}">
+                    <table class="table table-primary mb-0" th:each="borrow : ${borrows}">
+                        <tr>
+                            <th scope="row" style="max-width: 50px; min-width: 50px"><span th:text="${borrow.id}"></span></th>
+                            <td><span th:text="${borrow.borrowingDate}"></span></td>
+                            <td>
+                                <span th:if="${borrow.returningDate != null}" th:text="${borrow.returningDate}"></span>
+                                <span th:unless="${borrow.returningDate != null}"><b>Aktywne wypożyczenie</b></span>
+                            </td>
+                            <td>
+                                <a th:if="${borrow.returningDate == null}" th:href="@{/borrows/returnBorrow(borrowId=${borrow.id})}"><i data-feather="corner-down-left"></i></a>
+                                <span th:unless="${borrow.returningDate == null}"><i data-feather="corner-down-left"></i></span>
+                            </td>    
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <table class="table table-light">
+                                    <tbody>
+                                      <tr th:if="${borrow.likedBooks == null or borrow.likedBooks?.size()==0}">
+                                          <td colspan="5"> No Books Available </td>
+                                      </tr>
+                                      <tr th:each="book : ${borrow?.likedBooks}">
+                                          <td><span th:text="${book.isbn}">Isbn</span></td>
+                                          <td><span th:text="${book.title}">Title</span></td>
+                                          <td><span th:text="${book.author}">Author</span></td>
+                                          <td><span th:text="${book.publicationDate}">Publication date</span></td>
+                                          <td><span th:text="${book.publishingHouse}">Publishing House</span></td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
             </div>
             <div class="d-flex">
                <div th:if="${pageNum > 0}" class="m-1">
-                    <a th:href="@{/books(page=${pageNum}-1, searchText=${searchText}, searchType=${searchType})}"
+                    <a th:href="@{/borrows(page=${pageNum}-1, showOnlyBorrowed=${showOnlyBorrowed}, showAllBorrows=${showAllBorrows})}"
                         th:text="${pageNum}-1"></a>
                 </div>
                 <div class="m-1" th:text="${pageNum}">
                 </div>
                 <div th:if="${pageNum >= 0}" class="m-1">
-                    <a th:href="@{/books(page=${pageNum}+1, searchText=${searchText}, searchType=${searchType})}"
+                    <a th:href="@{/borrows(page=${pageNum}+1, showOnlyBorrowed=${showOnlyBorrowed}, showAllBorrows=${showAllBorrows})}"
                         th:text="${pageNum}+1"></a>
                 </div> 
             </div>

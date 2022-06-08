@@ -10,10 +10,12 @@ import com.ksienica.library.exceptions.BookCartExeption;
 import com.ksienica.library.exceptions.BookServiceExeptions;
 import com.ksienica.library.services.BookCartService;
 import com.ksienica.library.services.BookService;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,18 +94,29 @@ public class BorrowController {
     }
     
     @GetMapping(value = Definitions.URL_BORROWS)
-    public String getBorrowsView(HttpServletRequest request, Principal principal, final Model model){
+    public String getBorrowsView(HttpServletRequest request,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "false") boolean showOnlyBorrowed,
+            @RequestParam(defaultValue = "false") boolean showAllBorrows,
+            Principal principal,
+            final Model model){
         
-        model.addAttribute("borrows", bookCartService.getBorrowsByUser(principal.getName()));;
+        model.addAttribute("showOnlyBorrowed", showOnlyBorrowed);
+        model.addAttribute("showAllBorrows", showAllBorrows);
+        model.addAttribute("pageNum", page);
+        
+        model.addAttribute("borrows", bookCartService.getBorrows(principal.getName(), page, size, showOnlyBorrowed, showAllBorrows));;
     
         return Definitions.VIEW_BORROWS;
     }
     
     @GetMapping(value = Definitions.URL_RETURN_BORROW)
-    public String returnBorrow(@RequestParam int borrowId, HttpServletRequest request, Principal principal, final Model model){
+    public String returnBorrow(@RequestParam int borrowId, HttpServletRequest request, HttpServletResponse resp, Principal principal, final Model model) throws IOException{
     
         try {
             bookCartService.returnBorrow(borrowId, principal.getName());
+            resp.sendRedirect(request.getHeader("referer"));
         } catch (BookCartExeption ex) {
             model.addAttribute("error", ex.getMessage());
         }

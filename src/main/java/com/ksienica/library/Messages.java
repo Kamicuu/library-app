@@ -17,6 +17,7 @@ public final class Messages {
     public final static String SUCCESS_BOOK_REMOVED = "Książka została usunięta";
     public final static String SUCCESS_BOOK_ADDED_TO_CART= "Książka została dodana do koszyka wypożyczeń!";
     public final static String SUCCESS_BOOKS_BORROWED= "Książki zostały wypożyczone";
+    public final static String SUCCESS_BOOKS_RETURNED= "Książki zostały zwrócone";
     
     //Error messages
     public static final String ERROR_PASSWORD_DIFFERENT = "Podane hasła nie są takie same!";
