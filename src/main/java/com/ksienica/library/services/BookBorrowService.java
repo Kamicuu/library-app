@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Transactional
-public class BookCartService {
+public class BookBorrowService {
     
     @Autowired
     BookService bookService;

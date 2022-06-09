@@ -8,7 +8,7 @@ import com.ksienica.library.Definitions;
 import com.ksienica.library.Messages;
 import com.ksienica.library.exceptions.BookCartExeption;
 import com.ksienica.library.exceptions.BookServiceExeptions;
-import com.ksienica.library.services.BookCartService;
+import com.ksienica.library.services.BookBorrowService;
 import com.ksienica.library.services.BookService;
 import java.io.IOException;
 import java.security.Principal;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BorrowController {
     
     @Autowired
-    BookCartService bookCartService;
+    BookBorrowService bookCartService;
     
     @Autowired
     BookService bookService;
