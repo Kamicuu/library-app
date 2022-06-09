@@ -33,6 +33,7 @@ public class SecurityConfig {
             //login
             .formLogin(form -> form
                 .loginPage("/login")
+                .defaultSuccessUrl(Definitions.URL_HOME)
                 .permitAll()
             ).authorizeRequests()
             //Permit all
